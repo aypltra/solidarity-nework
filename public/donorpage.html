@@ -174,7 +174,7 @@
 
        if (email) {
          // If the user enters an email, send it to the server
-         fetch('https://solidarity-server.onrender.com/send-email', {
+         fetch('/send-email', {
            method: 'POST',
            headers: {
              'Content-Type': 'application/x-www-form-urlencoded',
