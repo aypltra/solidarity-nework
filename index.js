@@ -30,8 +30,8 @@ app.get('/', (req, res) => {
 
 // Route to handle sending an email
 app.post('/submit-email', (req, res) => {
-    console.log("📩 Incoming POST to /send-email");
-    console.log("Email received:", req.body.email);
+    window.alert("📩 Incoming POST to /send-email");
+    window.alert("Email received:", req.body.email);
 
     const mailOptions = {
         from: emailUser,
