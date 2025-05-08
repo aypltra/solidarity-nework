@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 });
 
 // Route to handle sending an email
-app.post('/submit-email', (req, res) => {
+app.post('/send-email', (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
