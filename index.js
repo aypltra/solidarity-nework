@@ -42,7 +42,7 @@ app.post('/send-email', (req, res) => {
         from: emailUser,
         to: req.body.email,  // Email from the user input
         subject: 'Notification about Campaign',
-        text: 'Thank you for your interest in receiving campaign updates! <br><br><br> If you wish to Unsubscribe from receiving updates, click here: https://aypltra.github.io/unsubscribe?email=${encodeURIComponent(req.body.email)}'
+        text: `Thank you for your interest in receiving campaign updates! <br><br><br> If you wish to Unsubscribe from receiving updates, click here: https://aypltra.github.io/unsubscribe?email=${encodeURIComponent(req.body.email)}`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
