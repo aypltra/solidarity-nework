@@ -30,13 +30,8 @@ app.get('/', (req, res) => {
 
 // Route to handle sending an email
 app.post('/submit-email', (req, res) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: emailUser,   // Use the email from .env
-            pass: emailPass    // Use the password from .env
-        }
-    });
+    console.log("📩 Incoming POST to /send-email");
+    console.log("Email received:", req.body.email);
 
     const mailOptions = {
         from: emailUser,
