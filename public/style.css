@@ -477,4 +477,6 @@ html, body {
   right: 0;
   border: blue solid 5px;
   border-radius: 3px;
+  padding:10px;
+  font-weight: bold;
 }
