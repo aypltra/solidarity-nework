@@ -469,13 +469,3 @@ html, body {
 .about-twobox p {
   font-size: 25px;
 }
-
-.unsubscribe-section {
-  padding-bottom: 100px;
-  width: 300px;
-  length: 75px;
-  font-size: 20px;
-  float: right;
-  position: fixed;
-  bottom: 0;
-}
