@@ -15,6 +15,9 @@ const path = require('path');
 const emailUser = process.env.EMAIL_USER;
 const emailPass = process.env.EMAIL_PASS;
 
+// for four-digit verification code
+const verificationCodes = new Map();
+
 // Step 4: Create our express server
 const app = express();
 
@@ -54,29 +57,62 @@ If you wish to Unsubscribe, click <a href="https://aypltra.github.io/unsubscribe
     });
 });
 
-// Handle unsubscribe code request
 app.post('/request-unsubscribe', (req, res) => {
   const email = req.body.email;
 
-  // Generate and store a 4-digit code for the email (in-memory or in DB)
-  const code = Math.floor(1000 + Math.random() * 9000);
-  console.log(`Sending code ${code} to ${email}`);
+  if (!email) {
+    return res.status(400).send('Email is required.');
+  }
 
-  // TODO: Store code temporarily (e.g., in memory, Redis, etc.)
-  // TODO: Send code via nodemailer
+  // Generate 4-digit code
+  const code = Math.floor(1000 + Math.random() * 9000).toString();
 
-  res.send('A 4-digit code was sent to your email.');
+  // Store in memory
+  verificationCodes.set(email, code);
+
+  // Email setup
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Your Unsubscribe Verification Code',
+    html: `<p>Your verification code is: <strong>${code}</strong></p>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      return res.status(500).send('Failed to send verification code.');
+    }
+    console.log(`Code ${code} sent to ${email}`);
+    res.send('A 4-digit code has been sent to your email.');
+  });
 });
 
-// Handle unsubscribe verification
 app.post('/verify-unsubscribe', (req, res) => {
   const { email, code } = req.body;
 
-  // TODO: Verify the code matches the stored code
-  // TODO: Remove user from notifications list
+  if (!email || !code) {
+    return res.status(400).send('Email and code are required.');
+  }
 
-  console.log(`Unsubscribing ${email} with code ${code}`);
-  res.send('You have been successfully unsubscribed.');
+  const storedCode = verificationCodes.get(email);
+
+  if (storedCode === code) {
+    verificationCodes.delete(email);
+    console.log(`Unsubscribed: ${email}`);
+    // TODO: Mark user unsubscribed in your DB or system
+    res.send('You have been successfully unsubscribed.');
+  } else {
+    res.status(400).send('Invalid code.');
+  }
 });
 
 // Step 5: Start the HTTP server on port 3000
