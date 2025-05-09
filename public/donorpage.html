@@ -40,24 +40,24 @@
   </div>
 
   <!-- Unsubscribe Section -->
-  <section id="unsubscribe-section">
-    <button id="cancelNotifyBtn">Cancel Notifications</button>
+ <section id="unsubscribe-section">
+  <button id="cancelNotifyBtn">Cancel Notifications</button>
 
-    <div id="unsubFormWrapper" style="display: none; margin-top: 1em;">
-      <form id="unsubForm">
-        <input type="email" name="email" id="unsubEmail" placeholder="Enter your email to unsubscribe" required>
-        <button type="submit">Request Code</button>
+  <div id="unsubFormWrapper" style="display: none; margin-top: 1em;">
+    <form id="unsubForm">
+      <input type="email" name="email" id="unsubEmail" placeholder="Enter your email to unsubscribe" required>
+      <button type="submit">Request Code</button>
+    </form>
+
+    <div id="unsubCodeSection" style="display: none; margin-top: 1em;">
+      <form id="unsubCodeForm">
+        <input type="hidden" name="email" id="unsubHiddenEmail">
+        <input type="text" name="code" placeholder="Enter 4-digit code" required>
+        <button type="submit">Verify</button>
       </form>
-
-      <div id="unsubCodeSection" style="display: none; margin-top: 1em;">
-        <form id="unsubCodeForm">
-          <input type="hidden" name="email" id="unsubHiddenEmail">
-          <input type="text" name="code" placeholder="Enter 4-digit code" required>
-          <button type="submit">Verify</button>
-        </form>
-      </div>
     </div>
-  </section>
+  </div>
+</section>
     
   <footer> 
   <p> Murchú, N. Ó., Snyder, K., & Miller, M. J. (2023). Colors of Palestine. Deleted Journal, 10(1). https://doi.org/10.16995/intransition.11277 </p>
