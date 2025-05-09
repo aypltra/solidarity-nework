@@ -469,3 +469,12 @@ html, body {
 .about-twobox p {
   font-size: 25px;
 }
+
+#cancelNotifyBtn {
+  margin-bottom: 100px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border: blue solid 5px;
+  border-radius: 3px;
+}
