@@ -54,6 +54,31 @@ If you wish to Unsubscribe, click <a href="https://aypltra.github.io/unsubscribe
     });
 });
 
+// Handle unsubscribe code request
+app.post('/request-unsubscribe', (req, res) => {
+  const email = req.body.email;
+
+  // Generate and store a 4-digit code for the email (in-memory or in DB)
+  const code = Math.floor(1000 + Math.random() * 9000);
+  console.log(`Sending code ${code} to ${email}`);
+
+  // TODO: Store code temporarily (e.g., in memory, Redis, etc.)
+  // TODO: Send code via nodemailer
+
+  res.send('A 4-digit code was sent to your email.');
+});
+
+// Handle unsubscribe verification
+app.post('/verify-unsubscribe', (req, res) => {
+  const { email, code } = req.body;
+
+  // TODO: Verify the code matches the stored code
+  // TODO: Remove user from notifications list
+
+  console.log(`Unsubscribing ${email} with code ${code}`);
+  res.send('You have been successfully unsubscribed.');
+});
+
 // Step 5: Start the HTTP server on port 3000
 const port = 3000;
 app.listen(port, () => console.log(`App listening on port ${port}`));
