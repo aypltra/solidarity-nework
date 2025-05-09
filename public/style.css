@@ -470,7 +470,7 @@ html, body {
   font-size: 25px;
 }
 
-.unsubscribe-section {
+#unsubscribe-section {
   margin-bottom: 100px;
   position: fixed;
   bottom: 0;
