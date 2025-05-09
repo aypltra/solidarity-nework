@@ -471,9 +471,11 @@ html, body {
 }
 
 .unsubscribe-section {
-  display: block;
   padding-bottom: 100px;
-  width: 100px;
+  width: 300px;
   length: 75px;
-  margin:auto;
+  font-size: 20px;
+  float: right;
+  position: fixed;
+  bottom: 0;
 }
