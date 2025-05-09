@@ -177,6 +177,67 @@
      });
    }
 
+// unsubscribe form
+    const unsubSection = document.createElement("section");
+    unsubSection.innerHTML = `
+      <h2>Unsubscribe from Notifications</h2>
+      <form id="unsubForm">
+        <input type="email" name="email" id="unsubEmail" placeholder="Enter your email to unsubscribe" required>
+        <button type="submit">Request Code</button>
+      </form>
+      <div id="unsubCodeSection" style="display: none; margin-top: 1em;">
+        <form id="unsubCodeForm">
+          <input type="hidden" name="email" id="unsubHiddenEmail">
+          <input type="text" name="code" placeholder="Enter 4-digit code" required>
+          <button type="submit">Verify</button>
+        </form>
+      </div>
+    `;
+    donateBoxes.appendChild(unsubSection);
+
+    const unsubForm = document.getElementById('unsubForm');
+    const unsubCodeForm = document.getElementById('unsubCodeForm');
+    const unsubCodeSection = document.getElementById('unsubCodeSection');
+    const unsubHiddenEmail = document.getElementById('unsubHiddenEmail');
+
+    unsubForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('unsubEmail').value;
+
+      const response = await fetch('/request-unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `email=${encodeURIComponent(email)}`
+      });
+
+      if (response.ok) {
+        alert('Verification code sent to your email.');
+        unsubHiddenEmail.value = email;
+        unsubCodeSection.style.display = 'block';
+      } else {
+        const errorText = await response.text();
+        alert('Error: ' + errorText);
+      }
+    });
+
+    unsubCodeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(unsubCodeForm);
+      const params = new URLSearchParams(formData);
+
+      const response = await fetch('/verify-unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params
+      });
+
+      const text = await response.text();
+      alert(text);
+      if (response.ok) {
+        unsubCodeSection.style.display = 'none';
+      }
+    });
+   
    // Call the function to display the links
    displayDonationLinks();
 
@@ -210,50 +271,6 @@
        console.log("User chose not to be notified.");
      }
    }
-
-    const unsubForm = document.getElementById('unsubForm');
-  const unsubCodeForm = document.getElementById('unsubCodeForm');
-  const unsubCodeSection = document.getElementById('unsubCodeSection');
-  const unsubHiddenEmail = document.getElementById('unsubHiddenEmail');
-
-  unsubForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('unsubEmail').value;
-
-    const response = await fetch('/request-unsubscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `email=${encodeURIComponent(email)}`
-    });
-
-    if (response.ok) {
-      alert('Verification code sent to your email.');
-      unsubHiddenEmail.value = email;
-      unsubCodeSection.style.display = 'block';
-    } else {
-      const errorText = await response.text();
-      alert('Error: ' + errorText);
-    }
-  });
-
-  unsubCodeForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(unsubCodeForm);
-    const params = new URLSearchParams(formData);
-
-    const response = await fetch('/verify-unsubscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params
-    });
-
-    const text = await response.text();
-    alert(text);
-    if (response.ok) {
-      unsubCodeSection.style.display = 'none';
-    }
-  });
-   
  </script>
 </body>
 </html>
